@@ -19,3 +19,8 @@ The resource is designed to support:
 - **AI governance & model risk** (attestations, AI agents, decision modalities).
 
 The ESWC 2026 resource paper describes the design and evaluation of DOAP-KG and provides the formal citation for this repository.
+
+## License
+
+- Ontology and synthetic knowledge graph: **CC BY 4.0** (see `LICENSE-CC-BY-4.0.md`)
+- Code, scripts, and configuration: **Apache 2.0** (see `LICENSE`)
