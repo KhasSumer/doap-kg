@@ -20,6 +20,11 @@ The resource is designed to support:
 
 The ESWC 2026 resource paper describes the design and evaluation of DOAP-KG and provides the formal citation for this repository.
 
+## Cite this work
+
+Shukanayev, D. (2025). *DOAP-KG: A Governance-Focused Knowledge Graph for Dynamic Oversight of Agentic Payments*. ESWC 2026 Resource Track. https://doi.org/10.5281/zenodo.17652943
+
+
 ## License
 
 - Ontology and synthetic knowledge graph: **CC BY 4.0** (see `LICENSE-CC-BY-4.0.md`)
