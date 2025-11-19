@@ -1,0 +1,4 @@
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix doapk: <https://w3id.org/doap-kg#> .
+
+# SHACL shapes for DOAP-KG will be added here.
