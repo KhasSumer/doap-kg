@@ -1,7 +1,75 @@
 @prefix doapk: <https://w3id.org/doap-kg#> .
-@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
 doapk: a owl:Ontology ;
-  rdfs:label "DOAP-KG: Dynamic Oversight for Agentic Payments Ontology" .
+  dct:title "DOAP-KG: Dynamic Oversight for Agentic Payments Knowledge Graph"@en ;
+  dct:description "Governance-first ontology for representing policies, controls, executions, risk assessments, overrides, attestations, evidence, and agents alongside payment transactions."@en ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  owl:versionInfo "1.0.0" ;
+  dct:creator "Dastan Shukanayev" ;
+  dct:created "2026-01-20"^^xsd:date .
+
+### Core classes
+doapk:PaymentTransaction a owl:Class ; rdfs:label "PaymentTransaction"@en ; rdfs:subClassOf prov:Entity .
+doapk:PaymentRail        a owl:Class ; rdfs:label "PaymentRail"@en .
+doapk:PaymentChannel     a owl:Class ; rdfs:label "PaymentChannel"@en .
+doapk:Jurisdiction       a owl:Class ; rdfs:label "Jurisdiction"@en .
+doapk:ExternalCounterparty a owl:Class ; rdfs:label "ExternalCounterparty"@en .
+
+doapk:Policy   a owl:Class ; rdfs:label "Policy"@en .
+doapk:Control  a owl:Class ; rdfs:label "Control"@en .
+doapk:ControlExecution a owl:Class ; rdfs:label "ControlExecution"@en ; rdfs:subClassOf prov:Activity .
+
+doapk:RiskAssessment a owl:Class ; rdfs:label "RiskAssessment"@en ; rdfs:subClassOf prov:Activity .
+doapk:Override       a owl:Class ; rdfs:label "Override"@en ; rdfs:subClassOf prov:Activity .
+doapk:Alert          a owl:Class ; rdfs:label "Alert"@en .
+doapk:Attestation    a owl:Class ; rdfs:label "Attestation"@en ; rdfs:subClassOf prov:Entity .
+doapk:EvidenceItem   a owl:Class ; rdfs:label "EvidenceItem"@en ; rdfs:subClassOf prov:Entity .
+
+doapk:Agent       a owl:Class ; rdfs:label "Agent"@en ; rdfs:subClassOf prov:Agent .
+doapk:HumanAgent  a owl:Class ; rdfs:label "HumanAgent"@en ; rdfs:subClassOf doapk:Agent .
+doapk:SoftwareAgent a owl:Class ; rdfs:label "SoftwareAgent"@en ; rdfs:subClassOf doapk:Agent .
+doapk:OrgUnit     a owl:Class ; rdfs:label "OrgUnit"@en .
+
+doapk:DecisionModality a owl:Class ; rdfs:label "DecisionModality"@en ; rdfs:subClassOf skos:Concept .
+doapk:AutonomousDecision a doapk:DecisionModality ; skos:prefLabel "Autonomous"@en .
+doapk:HumanInTheLoopDecision a doapk:DecisionModality ; skos:prefLabel "Human-in-the-loop"@en .
+
+### Object properties (representative set)
+doapk:hasRail a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:PaymentRail ; rdfs:label "hasRail"@en .
+doapk:hasChannel a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:PaymentChannel ; rdfs:label "hasChannel"@en .
+doapk:hasJurisdiction a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:Jurisdiction ; rdfs:label "hasJurisdiction"@en .
+doapk:hasCounterparty a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:ExternalCounterparty ; rdfs:label "hasCounterparty"@en .
+
+doapk:governedBy a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:Policy ; rdfs:label "governedBy"@en .
+doapk:implementedByControl a owl:ObjectProperty ; rdfs:domain doapk:Policy ; rdfs:range doapk:Control ; rdfs:label "implementedByControl"@en .
+
+doapk:hasControlExecution a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:ControlExecution ; rdfs:label "hasControlExecution"@en .
+doapk:executesControl a owl:ObjectProperty ; rdfs:domain doapk:ControlExecution ; rdfs:range doapk:Control ; rdfs:label "executesControl"@en .
+doapk:hasRiskAssessment a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:RiskAssessment ; rdfs:label "hasRiskAssessment"@en .
+doapk:hasOverride a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:Override ; rdfs:label "hasOverride"@en .
+doapk:hasAlert a owl:ObjectProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range doapk:Alert ; rdfs:label "hasAlert"@en .
+
+doapk:basedOnEvidence a owl:ObjectProperty ; rdfs:domain prov:Activity ; rdfs:range doapk:EvidenceItem ; rdfs:label "basedOnEvidence"@en .
+doapk:hasAttestation a owl:ObjectProperty ; rdfs:domain doapk:Control ; rdfs:range doapk:Attestation ; rdfs:label "hasAttestation"@en .
+doapk:inOrgUnit a owl:ObjectProperty ; rdfs:domain doapk:Agent ; rdfs:range doapk:OrgUnit ; rdfs:label "inOrgUnit"@en .
+
+doapk:decisionModality a owl:ObjectProperty ; rdfs:domain prov:Activity ; rdfs:range doapk:DecisionModality ; rdfs:label "decisionModality"@en .
+
+### Datatype properties (representative set)
+doapk:amount a owl:DatatypeProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range xsd:decimal ; rdfs:label "amount"@en .
+doapk:currency a owl:DatatypeProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range xsd:string ; rdfs:label "currency"@en .
+doapk:timestamp a owl:DatatypeProperty ; rdfs:domain prov:Activity ; rdfs:range xsd:dateTime ; rdfs:label "timestamp"@en .
+
+doapk:riskScore a owl:DatatypeProperty ; rdfs:domain doapk:PaymentTransaction ; rdfs:range xsd:decimal ; rdfs:label "riskScore"@en .
+doapk:residualRiskScore a owl:DatatypeProperty ; rdfs:domain doapk:RiskAssessment ; rdfs:range xsd:decimal ; rdfs:label "residualRiskScore"@en .
+
+doapk:justification a owl:DatatypeProperty ; rdfs:domain doapk:Override ; rdfs:range xsd:string ; rdfs:label "justification"@en .
+
+doapk:validFrom a owl:DatatypeProperty ; rdfs:domain doapk:Attestation ; rdfs:range xsd:dateTime ; rdfs:label "validFrom"@en .
+doapk:validUntil a owl:DatatypeProperty ; rdfs:domain doapk:Attestation ; rdfs:range xsd:dateTime ; rdfs:label "validUntil"@en .
