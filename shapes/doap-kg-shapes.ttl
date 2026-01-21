@@ -1,4 +1,123 @@
-@prefix sh:    <http://www.w3.org/ns/shacl#> .
 @prefix doapk: <https://w3id.org/doap-kg#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 
-# SHACL shapes for DOAP-KG will be added here.
+doapk:DOAPKGShapes
+  a owl:Ontology ;
+  dct:title "DOAP-KG SHACL shapes"@en ;
+  dct:description "SHACL constraints for structural validity and governance rules in DOAP-KG."@en ;
+  owl:versionInfo "1.0.0" ;
+  dct:creator "Dastan Shukanayev" ;
+  dct:created "2026-01-21"^^xsd:date .
+
+#################################################################
+# Shape 1: High-risk transactions must have a risk assessment
+#################################################################
+
+doapk:HighRiskNeedsAssessmentShape
+  a sh:NodeShape ;
+  sh:targetClass doapk:PaymentTransaction ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Transactions with riskScore >= 0.8 must have at least one RiskAssessment (doapk:hasRiskAssessment)."@en ;
+    sh:select """
+      PREFIX doapk: <https://w3id.org/doap-kg#>
+      PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>
+      SELECT $this WHERE {
+        $this doapk:riskScore ?score .
+        FILTER(xsd:decimal(?score) >= 0.8)
+        FILTER NOT EXISTS { $this doapk:hasRiskAssessment ?ra . }
+      }
+    """ ;
+  ] .
+
+#################################################################
+# Shape 2: Overrides must carry a justification and timestamp
+#################################################################
+
+doapk:OverrideMinimumFieldsShape
+  a sh:NodeShape ;
+  sh:targetClass doapk:Override ;
+  sh:property [
+    sh:path doapk:justification ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:message "Override must include a justification string (doapk:justification)."@en ;
+  ] ;
+  sh:property [
+    sh:path doapk:timestamp ;
+    sh:datatype xsd:dateTime ;
+    sh:minCount 1 ;
+    sh:message "Override must include a timestamp (doapk:timestamp)."@en ;
+  ] .
+
+#################################################################
+# Shape 3: Attestations must have validFrom and validUntil
+#         and validUntil must be after validFrom
+#################################################################
+
+doapk:AttestationValidityWindowShape
+  a sh:NodeShape ;
+  sh:targetClass doapk:Attestation ;
+  sh:property [
+    sh:path doapk:validFrom ;
+    sh:datatype xsd:dateTime ;
+    sh:minCount 1 ;
+    sh:message "Attestation must include validFrom (doapk:validFrom)."@en ;
+  ] ;
+  sh:property [
+    sh:path doapk:validUntil ;
+    sh:datatype xsd:dateTime ;
+    sh:minCount 1 ;
+    sh:message "Attestation must include validUntil (doapk:validUntil)."@en ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "Attestation validUntil must be after validFrom."@en ;
+    sh:select """
+      PREFIX doapk: <https://w3id.org/doap-kg#>
+      PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>
+      SELECT $this WHERE {
+        $this doapk:validFrom  ?from ;
+              doapk:validUntil ?until .
+        FILTER(xsd:dateTime(?until) <= xsd:dateTime(?from))
+      }
+    """ ;
+  ] .
+
+#################################################################
+# Shape 4: Control executions must declare decision modality
+#################################################################
+
+doapk:ControlExecutionDecisionModalityShape
+  a sh:NodeShape ;
+  sh:targetClass doapk:ControlExecution ;
+  sh:property [
+    sh:path doapk:decisionModality ;
+    sh:minCount 1 ;
+    sh:message "ControlExecution must declare decision modality (doapk:decisionModality)."@en ;
+  ] ;
+  sh:property [
+    sh:path doapk:decisionModality ;
+    sh:in ( doapk:AutonomousDecision doapk:HumanInLoopDecision ) ;
+    sh:message "decisionModality must be one of doapk:AutonomousDecision or doapk:HumanInLoopDecision."@en ;
+  ] .
+
+#################################################################
+# Shape 5 (simple governance check): Controls should have attestations
+#################################################################
+
+doapk:ControlMustHaveAttestationShape
+  a sh:NodeShape ;
+  sh:targetClass doapk:Control ;
+  sh:property [
+    sh:path doapk:hasAttestation ;
+    sh:minCount 1 ;
+    sh:message "Control should have at least one attestation (doapk:hasAttestation)."@en ;
+  ] .
