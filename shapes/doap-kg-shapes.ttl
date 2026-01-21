@@ -17,6 +17,38 @@ doapk:DOAPKGShapes
   dct:created "2026-01-21"^^xsd:date .
 
 #################################################################
+# Shape 0: Basic required fields for PaymentTransaction
+#################################################################
+
+doapk:PaymentTransactionMinimumFieldsShape
+  a sh:NodeShape ;
+  sh:targetClass doapk:PaymentTransaction ;
+  sh:property [
+    sh:path doapk:amount ;
+    sh:datatype xsd:decimal ;
+    sh:minCount 1 ;
+    sh:message "PaymentTransaction must have doapk:amount (decimal)."@en ;
+  ] ;
+  sh:property [
+    sh:path doapk:currency ;
+    sh:datatype xsd:string ;
+    sh:minCount 1 ;
+    sh:message "PaymentTransaction must have doapk:currency (string)."@en ;
+  ] ;
+  sh:property [
+    sh:path doapk:hasRail ;
+    sh:class doapk:PaymentRail ;
+    sh:minCount 1 ;
+    sh:message "PaymentTransaction must declare a PaymentRail (doapk:hasRail)."@en ;
+  ] ;
+  sh:property [
+    sh:path doapk:hasJurisdiction ;
+    sh:class doapk:Jurisdiction ;
+    sh:minCount 1 ;
+    sh:message "PaymentTransaction must declare a Jurisdiction (doapk:hasJurisdiction)."@en ;
+  ] .
+
+#################################################################
 # Shape 1: High-risk transactions must have a risk assessment
 #################################################################
 
@@ -38,7 +70,7 @@ doapk:HighRiskNeedsAssessmentShape
   ] .
 
 #################################################################
-# Shape 2: Overrides must carry a justification and timestamp
+# Shape 2: Overrides must carry a justification, timestamp, and agent link
 #################################################################
 
 doapk:OverrideMinimumFieldsShape
@@ -55,6 +87,11 @@ doapk:OverrideMinimumFieldsShape
     sh:datatype xsd:dateTime ;
     sh:minCount 1 ;
     sh:message "Override must include a timestamp (doapk:timestamp)."@en ;
+  ] ;
+  sh:property [
+    sh:path prov:wasAssociatedWith ;
+    sh:minCount 1 ;
+    sh:message "Override must be associated with an agent (prov:wasAssociatedWith)."@en ;
   ] .
 
 #################################################################
@@ -110,7 +147,7 @@ doapk:ControlExecutionDecisionModalityShape
   ] .
 
 #################################################################
-# Shape 5 (simple governance check): Controls should have attestations
+# Shape 5: Controls should have attestations
 #################################################################
 
 doapk:ControlMustHaveAttestationShape
