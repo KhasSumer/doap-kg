@@ -1,0 +1,8 @@
+PREFIX doapk: <https://w3id.org/doap-kg#>
+PREFIX prov:  <http://www.w3.org/ns/prov#>
+SELECT ?mode (COUNT(?act) AS ?n) WHERE {
+  ?act a prov:Activity ;
+       doapk:decisionModality ?mode .
+}
+GROUP BY ?mode
+ORDER BY DESC(?n)
