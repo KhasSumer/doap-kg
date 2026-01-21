@@ -1,3 +1,72 @@
 @prefix doapk: <https://w3id.org/doap-kg#> .
+@prefix ex:    <https://w3id.org/doap-kg/example/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-# Synthetic knowledge graph for DOAP-KG will be added here.
+#################################################################
+# Minimal synthetic KG for DOAP-KG (examples)
+# Covers: PaymentTransaction, RiskAssessment, Override, Attestation,
+# Control, ControlExecution, decision modality, and required fields.
+#################################################################
+
+# ---- Agents (for provenance links) ----
+ex:agent_ai_1 a prov:Agent .
+ex:agent_human_1 a prov:Agent .
+
+# ---- Reference objects ----
+ex:rail_card a doapk:PaymentRail .
+ex:jur_uk   a doapk:Jurisdiction .
+
+# ---- Controls + attestations ----
+ex:control_velocity a doapk:Control .
+ex:attest_velocity_2026 a doapk:Attestation ;
+  doapk:validFrom  "2026-01-01T00:00:00Z"^^xsd:dateTime ;
+  doapk:validUntil "2026-12-31T23:59:59Z"^^xsd:dateTime .
+ex:control_velocity doapk:hasAttestation ex:attest_velocity_2026 .
+
+# ---- Control execution with decision modality ----
+ex:control_exec_1 a doapk:ControlExecution ;
+  doapk:decisionModality doapk:AutonomousDecision ;
+  prov:wasAssociatedWith ex:agent_ai_1 ;
+  doapk:timestamp "2026-01-21T12:00:00Z"^^xsd:dateTime .
+
+# ---- Transactions ----
+# tx1 is high risk and HAS a RiskAssessment (should pass Shape 1)
+ex:tx1 a doapk:PaymentTransaction ;
+  doapk:amount "1250.00"^^xsd:decimal ;
+  doapk:currency "GBP"^^xsd:string ;
+  doapk:hasRail ex:rail_card ;
+  doapk:hasJurisdiction ex:jur_uk ;
+  doapk:riskScore "0.92"^^xsd:decimal ;
+  doapk:hasControlExecution ex:control_exec_1 .
+
+ex:ra1 a doapk:RiskAssessment ;
+  prov:wasAssociatedWith ex:agent_ai_1 ;
+  doapk:timestamp "2026-01-21T12:00:01Z"^^xsd:dateTime .
+ex:tx1 doapk:hasRiskAssessment ex:ra1 .
+
+# tx2 is high risk but has NO RiskAssessment (useful as a failing example)
+ex:tx2 a doapk:PaymentTransaction ;
+  doapk:amount "990.00"^^xsd:decimal ;
+  doapk:currency "GBP"^^xsd:string ;
+  doapk:hasRail ex:rail_card ;
+  doapk:hasJurisdiction ex:jur_uk ;
+  doapk:riskScore "0.85"^^xsd:decimal .
+
+# tx3 is lower risk (no assessment required by your high-risk rule)
+ex:tx3 a doapk:PaymentTransaction ;
+  doapk:amount "24.50"^^xsd:decimal ;
+  doapk:currency "GBP"^^xsd:string ;
+  doapk:hasRail ex:rail_card ;
+  doapk:hasJurisdiction ex:jur_uk ;
+  doapk:riskScore "0.10"^^xsd:decimal .
+
+# ---- Override (must have justification + timestamp) ----
+ex:ov1 a doapk:Override ;
+  doapk:justification "Manual override approved due to customer whitelisting evidence."^^xsd:string ;
+  doapk:timestamp "2026-01-21T12:05:00Z"^^xsd:dateTime ;
+  prov:wasAssociatedWith ex:agent_human_1 .
+
+# Link override to a transaction (optional but useful)
+ex:tx1 doapk:hasOverride ex:ov1 .
