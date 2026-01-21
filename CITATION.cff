@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "DOAP-KG: Dynamic Oversight for Agentic Payments Knowledge Graph"
+type: software
+authors:
+  - family-names: Shukanayev
+    given-names: Dastan
+repository-code: "https://github.com/KhasSumer/doap-kg"
+url: "https://w3id.org/doap-kg"
+license: "Apache-2.0"
+version: "1.0.1"
+doi: "10.5281/zenodo.18330294"
+date-released: "2026-01-21"
+keywords:
+  - knowledge graph
+  - ontology
+  - SHACL
+  - SPARQL
+  - governance
+  - payments
