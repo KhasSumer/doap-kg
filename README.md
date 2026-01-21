@@ -24,7 +24,7 @@ The ESWC 2026 resource paper describes the design and evaluation of DOAP-KG and 
 
 - Persistent URI (w3id): **https://w3id.org/doap-kg**
 - Repository: https://github.com/KhasSumer/doap-kg
-- Archived release (Zenodo): 10.5281/zenodo.18330294
+- Archived release (Zenodo): [10.5281/zenodo.18330294](https://doi.org/10.5281/zenodo.18330294)
 - Queries live here: [queries/queries/queries/](queries/queries/queries/)
 - Ontology (TTL): [ontology/doap-kg.ttl](ontology/doap-kg.ttl)
 - SHACL shapes: shapes/doap-kg-shapes.ttl
@@ -33,7 +33,7 @@ The ESWC 2026 resource paper describes the design and evaluation of DOAP-KG and 
 
 ### Cite this work
 
-Shukanayev, D. (2025). *DOAP-KG: A Governance-Focused Knowledge Graph for Dynamic Oversight of Agentic Payments*. ESWC 2026 Resource Track. https://doi.org/10.5281/zenodo.17652943
+Shukanayev, D. (2025). *DOAP-KG: A Governance-Focused Knowledge Graph for Dynamic Oversight of Agentic Payments*. ESWC 2026 Resource Track. [https://doi.org/10.5281/zenodo.17652943](https://doi.org/10.5281/zenodo.18330294)
 
 
 ## License
