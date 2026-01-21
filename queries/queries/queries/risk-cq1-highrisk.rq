@@ -1,10 +1,13 @@
 PREFIX doapk: <https://w3id.org/doap-kg#>
-SELECT ?tx ?amount ?currency ?risk ?policy WHERE {
+PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?tx ?amount ?currency ?score ?policy
+WHERE {
   ?tx a doapk:PaymentTransaction ;
       doapk:amount ?amount ;
       doapk:currency ?currency ;
-      doapk:riskScore ?risk ;
-      doapk:governedBy ?policy .
-  FILTER(?risk >= 0.80)
+      doapk:riskScore ?score .
+  OPTIONAL { ?tx doapk:governedBy ?policy . }
+  FILTER(xsd:decimal(?score) >= 0.8)
 }
-ORDER BY DESC(?risk)
+ORDER BY DESC(xsd:decimal(?score))
