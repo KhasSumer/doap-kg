@@ -1,0 +1,7 @@
+PREFIX doapk: <https://w3id.org/doap-kg#>
+SELECT (COUNT(?tx) AS ?would_be_high_risk) WHERE {
+  ?tx a doapk:PaymentTransaction ;
+      doapk:riskScore ?risk .
+  BIND(0.70 AS ?newThreshold)
+  FILTER(?risk >= ?newThreshold)
+}
