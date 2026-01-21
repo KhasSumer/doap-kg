@@ -12,6 +12,25 @@ This repository contains:
 - `queries/` – SPARQL 1.1 queries implementing the competency questions (CQ1–CQ9).
 - `docs/` – additional documentation, examples, and usage notes.
 
+## Validate (SHACL)
+
+You can validate DOAP-KG data against the SHACL constraints using `pyshacl`.
+
+### Install
+```bash
+pip install pyshacl
+
+pyshacl \
+  -s shapes/doap-kg-shapes.ttl \
+  -d kg/doap-kg-synthetic.ttl \
+  -e ontology/doap-kg.ttl \
+  -i rdfs \
+  -f human
+```bash
+
+
+Validate the synthetic KG
+
 The resource is designed to support:
 - **Risk & compliance** (high-risk transactions, overrides, control weaknesses),
 - **Product & operations** (what-if scenarios, friction vs. safety trade-offs),
@@ -33,7 +52,7 @@ The ESWC 2026 resource paper describes the design and evaluation of DOAP-KG and 
 
 ### Cite this work
 
-Shukanayev, D. (2025). *DOAP-KG: A Governance-Focused Knowledge Graph for Dynamic Oversight of Agentic Payments*. ESWC 2026 Resource Track. [https://doi.org/10.5281/zenodo.17652943](https://doi.org/10.5281/zenodo.18330294)
+Shukanayev, D. (2025). *DOAP-KG: A Governance-Focused Knowledge Graph for Dynamic Oversight of Agentic Payments*. ESWC 2026 Resource Track. [https://doi.org/10.5281/zenodo.18330294](https://doi.org/10.5281/zenodo.18330294)
 
 
 ## License
