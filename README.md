@@ -16,6 +16,7 @@ This repository contains:
 - `docs/` – additional documentation, examples, and usage notes.
 
 ## Validate (SHACL)
+Example SPARQL query outputs (synthetic KG) are available in `docs/query-results.md`.
 
 You can validate DOAP-KG data against the SHACL constraints using `pyshacl`.
 
