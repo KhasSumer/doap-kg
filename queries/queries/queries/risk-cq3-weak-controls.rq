@@ -1,0 +1,13 @@
+PREFIX doapk: <https://w3id.org/doap-kg#>
+PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>
+SELECT ?rail ?control (COUNT(?exec) AS ?failures) WHERE {
+  ?tx a doapk:PaymentTransaction ;
+      doapk:hasRail ?rail ;
+      doapk:hasControlExecution ?exec .
+  ?exec doapk:executesControl ?control ;
+        doapk:outcome ?out .
+  ?out skos:prefLabel ?lbl .
+  FILTER(LCASE(STR(?lbl)) = "failed")
+}
+GROUP BY ?rail ?control
+ORDER BY DESC(?failures)
