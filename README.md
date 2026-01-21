@@ -27,7 +27,7 @@ The ESWC 2026 resource paper describes the design and evaluation of DOAP-KG and 
 - Archived release (Zenodo): https://doi.org/10.5281/zenodo.17652943
 - Queries live here: [queries/queries/queries/](queries/queries/queries/)
 - Ontology (TTL): [ontology/doap-kg.ttl](ontology/doap-kg.ttl)
-- SHACL shapes: [shapes/](shapes/)
+- SHACL shapes: shapes/doap-kg-shapes.ttl
 
 
 
