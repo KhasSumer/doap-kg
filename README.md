@@ -26,7 +26,7 @@ pyshacl \
   -e ontology/doap-kg.ttl \
   -i rdfs \
   -f human
-```bash
+```
 
 
 Validate the synthetic KG
