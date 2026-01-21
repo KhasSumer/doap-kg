@@ -1,0 +1,8 @@
+PREFIX doapk: <https://w3id.org/doap-kg#>
+SELECT ?control ?att ?until WHERE {
+  ?control a doapk:Control ;
+           doapk:hasAttestation ?att .
+  ?att doapk:validUntil ?until .
+  FILTER(?until < NOW())
+}
+ORDER BY ?until
