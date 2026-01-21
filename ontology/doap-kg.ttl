@@ -11,6 +11,8 @@ doapk: a owl:Ontology ;
   dct:description "Governance-first ontology for representing policies, controls, executions, risk assessments, overrides, attestations, evidence, and agents alongside payment transactions."@en ;
   dct:license <https://creativecommons.org/licenses/by/4.0/> ;
   owl:versionInfo "1.0.0" ;
+  owl:versionIRI <https://w3id.org/doap-kg/1.0/> ;
+  dct:publisher "DOAP-KG project (GitHub: KhasSumer)" ;
   dct:creator "Dastan Shukanayev" ;
   dct:created "2026-01-20"^^xsd:date .
 
