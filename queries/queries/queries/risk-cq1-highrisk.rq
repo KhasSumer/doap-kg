@@ -1,0 +1,10 @@
+PREFIX doapk: <https://w3id.org/doap-kg#>
+SELECT ?tx ?amount ?currency ?risk ?policy WHERE {
+  ?tx a doapk:PaymentTransaction ;
+      doapk:amount ?amount ;
+      doapk:currency ?currency ;
+      doapk:riskScore ?risk ;
+      doapk:governedBy ?policy .
+  FILTER(?risk >= 0.80)
+}
+ORDER BY DESC(?risk)
