@@ -4,6 +4,9 @@ DOAP-KG is a governance-focused ontology and knowledge graph for **agentic payme
 
 The goal of DOAP-KG is to make policies, controls, control executions, exceptions, attestations, risk assessments, and evidentiary artefacts **first-class, queryable objects** that can be linked to payment transactions, agents, rails, channels, and jurisdictions.
 
+**Note:** DOAP-KG (Dynamic Oversight for Agentic Payments) is unrelated to the DOAP “Description of a Project” vocabulary; our namespace prefix is `doapk:` (`https://w3id.org/doap-kg#`).
+
+
 This repository contains:
 
 - `ontology/` – the DOAP-KG OWL/Turtle ontology.
