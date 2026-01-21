@@ -1,0 +1,11 @@
+PREFIX doapk: <https://w3id.org/doap-kg#>
+PREFIX prov:  <http://www.w3.org/ns/prov#>
+SELECT ?tx ?override ?agent ?just ?ts WHERE {
+  ?tx a doapk:PaymentTransaction ;
+      doapk:hasOverride ?override .
+  ?override a doapk:Override ;
+            prov:wasAssociatedWith ?agent ;
+            doapk:justification ?just ;
+            doapk:timestamp ?ts .
+}
+ORDER BY DESC(?ts)
