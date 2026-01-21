@@ -1,0 +1,5 @@
+PREFIX doapk: <https://w3id.org/doap-kg#>
+SELECT ?agent WHERE {
+  ?agent a doapk:Agent .
+  FILTER NOT EXISTS { ?agent doapk:inOrgUnit ?u . }
+}
