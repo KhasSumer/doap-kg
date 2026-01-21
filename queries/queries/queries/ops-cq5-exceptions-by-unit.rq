@@ -1,0 +1,9 @@
+PREFIX doapk: <https://w3id.org/doap-kg#>
+PREFIX prov:  <http://www.w3.org/ns/prov#>
+SELECT ?unit (COUNT(?override) AS ?overrides) WHERE {
+  ?tx doapk:hasOverride ?override .
+  ?override prov:wasAssociatedWith ?agent .
+  ?agent doapk:inOrgUnit ?unit .
+}
+GROUP BY ?unit
+ORDER BY DESC(?overrides)
